@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useState, useCallback } from 'react';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import { Screen } from '../../src/components/ui/Screen';
 import { AppText } from '../../src/components/ui/Text';
-import { useAppStore, allSets } from '../../src/store/useAppStore';
+import { useAppStore, useAllSets } from '../../src/store/useAppStore';
 import { StudyMode } from '../../src/domain/types';
 import { scoreSession } from '../../src/domain/scoring';
 import { Flashcards } from '../../src/components/study/Flashcards';
@@ -31,7 +31,7 @@ export default function StudyScreen() {
   const mode = params.mode as StudyMode;
   const setId = params.setId ?? '';
 
-  const sets = useAppStore(allSets);
+  const sets = useAllSets();
   const applySession = useAppStore((s) => s.applySession);
   const recordWordOutcome = useAppStore((s) => s.recordWordOutcome);
 

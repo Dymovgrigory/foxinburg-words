@@ -6,7 +6,7 @@ import { AppText } from '../../src/components/ui/Text';
 import { Card } from '../../src/components/ui/Card';
 import { Emoji } from '../../src/components/Emoji';
 import { useTheme } from '../../src/theme/ThemeProvider';
-import { useAppStore, allSets, getSetProgress } from '../../src/store/useAppStore';
+import { useAppStore, useAllSets, getSetProgress } from '../../src/store/useAppStore';
 import { getLanguage } from '../../src/data/languages';
 import { STUDY_MODES } from '../../src/data/studyModes';
 
@@ -14,7 +14,7 @@ export default function SetDetail() {
   const t = useTheme();
   const router = useRouter();
   const { id } = useLocalSearchParams<{ id: string }>();
-  const sets = useAppStore(allSets);
+  const sets = useAllSets();
   const prog = useAppStore((s) => getSetProgress(s, id ?? ''));
 
   const set = sets.find((s) => s.id === id);
