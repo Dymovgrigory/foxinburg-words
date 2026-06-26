@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { create } from 'zustand';
 import { persist, createJSONStorage } from 'zustand/middleware';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -427,8 +428,15 @@ function levelOf(totalXp: number): number {
 }
 
 // selectors
-export function allSets(state: AppState): WordSet[] {
-  return [...SEED_SETS, ...state.customSets];
+//
+// NOTE: Zustand v5 is backed by useSyncExternalStore, which requires selectors
+// to return a stable reference for unchanged state. Selectors that build a new
+// array/object on every call (e.g. spreading) trigger an infinite render loop
+// ("Maximum update depth exceeded"). Such derived values are exposed as hooks
+// that subscribe to the stable underlying slice and memoize the result.
+export function useAllSets(): WordSet[] {
+  const customSets = useAppStore((s) => s.customSets);
+  return useMemo(() => [...SEED_SETS, ...customSets], [customSets]);
 }
 
 export function currentProfile(state: AppState): Profile | null {
@@ -446,8 +454,10 @@ export function getSetProgress(
   return state.progress[`${pid}:${setId}`] ?? null;
 }
 
+const EMPTY_STATS: Stats = emptyStats();
+
 export function currentStats(state: AppState): Stats {
   const pid = state.currentProfileId;
-  if (!pid) return emptyStats();
-  return state.stats[pid] ?? emptyStats();
+  if (!pid) return EMPTY_STATS;
+  return state.stats[pid] ?? EMPTY_STATS;
 }

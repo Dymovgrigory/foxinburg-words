@@ -7,7 +7,7 @@ import { Card } from '../../src/components/ui/Card';
 import { ProgressBar } from '../../src/components/ui/ProgressBar';
 import { Emoji } from '../../src/components/Emoji';
 import { useTheme } from '../../src/theme/ThemeProvider';
-import { useAppStore, allSets, getSetProgress } from '../../src/store/useAppStore';
+import { useAppStore, useAllSets, getSetProgress } from '../../src/store/useAppStore';
 import { LANGUAGES } from '../../src/data/languages';
 import { LanguageCode } from '../../src/domain/types';
 
@@ -15,7 +15,7 @@ export default function SetsScreen() {
   const t = useTheme();
   const router = useRouter();
   const params = useLocalSearchParams<{ lang?: string }>();
-  const sets = useAppStore(allSets);
+  const sets = useAllSets();
   const progress = useAppStore((s) => s.progress);
   const pid = useAppStore((s) => s.currentProfileId);
 

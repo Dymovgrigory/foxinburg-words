@@ -9,7 +9,7 @@ import { Button } from '../../src/components/ui/Button';
 import { Emoji } from '../../src/components/Emoji';
 import { FoxMascot, FoxMood } from '../../src/components/FoxMascot';
 import { useTheme } from '../../src/theme/ThemeProvider';
-import { useAppStore, currentProfile, allSets } from '../../src/store/useAppStore';
+import { useAppStore, currentProfile, useAllSets } from '../../src/store/useAppStore';
 import { LANGUAGES } from '../../src/data/languages';
 import { getLevel } from '../../src/domain/leveling';
 
@@ -25,7 +25,7 @@ export default function HomeScreen() {
   const t = useTheme();
   const router = useRouter();
   const profile = useAppStore(currentProfile);
-  const sets = useAppStore(allSets);
+  const sets = useAllSets();
   const progress = useAppStore((s) => s.progress);
 
   const g = useMemo(greeting, []);
